@@ -11,6 +11,10 @@ public class hello{
 	{
 		System.out.println(name);
 	}
+	public static int sqrt(int n)
+	{
+		return n*n;
+	}
 
 	
 }
