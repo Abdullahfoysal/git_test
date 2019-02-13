@@ -3,8 +3,8 @@ public class hello{
 
 
 	public static void main(String[] args){
-		System.out.println("sublime is also awesome");
-	    greeting("Hello java");
+		System.out.println("bye bye");
+	    greeting("Hello Git");
 	}
 
 	public static void greeting(String name)
