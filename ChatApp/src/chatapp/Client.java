@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
+<<<<<<< HEAD
+import java.util.Vector;
+=======
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -47,6 +51,16 @@ public class Client extends javax.swing.JFrame {
         initComponents();
     }
     
+<<<<<<< HEAD
+//    public static void Refresh(Vector<ClientHandler> ActiveClient){
+//        for(ClientHandler mc:ActiveClient){
+//           Active.setText(mc.name+"\n");
+//        }
+//        
+//    }
+    
+=======
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
    
 
     /**
@@ -62,6 +76,16 @@ public class Client extends javax.swing.JFrame {
         msg_text = new javax.swing.JTextField();
         ClientSentButton = new javax.swing.JButton();
         SentToClient = new javax.swing.JTextField();
+<<<<<<< HEAD
+        status = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Active = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        Activity = new javax.swing.JTextArea();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+=======
         jScrollPane1 = new javax.swing.JScrollPane();
         ActiveList = new javax.swing.JList<>();
         status = new javax.swing.JTextField();
@@ -69,6 +93,7 @@ public class Client extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         msg_area.setText("Client");
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
         msg_area.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 msg_areaActionPerformed(evt);
@@ -96,8 +121,11 @@ public class Client extends javax.swing.JFrame {
             }
         });
 
+<<<<<<< HEAD
+=======
         jScrollPane1.setViewportView(ActiveList);
 
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
         status.setText("Active");
         status.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,11 +133,43 @@ public class Client extends javax.swing.JFrame {
             }
         });
 
+<<<<<<< HEAD
+        Active.setColumns(20);
+        Active.setRows(5);
+        jScrollPane2.setViewportView(Active);
+
+        Activity.setColumns(20);
+        Activity.setRows(5);
+        jScrollPane3.setViewportView(Activity);
+
+=======
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
+<<<<<<< HEAD
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(ClientSentButton)
+                .addGap(170, 170, 170))
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addComponent(msg_area)
+                .addGap(210, 210, 210)
+                .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66))
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(msg_text, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(SentToClient, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+=======
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(msg_text, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -129,10 +189,23 @@ public class Client extends javax.swing.JFrame {
                                 .addGap(22, 22, 22))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))))
                 .addContainerGap())
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+<<<<<<< HEAD
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(msg_area, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(status))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+=======
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -140,6 +213,7 @@ public class Client extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
                     .addComponent(msg_area))
                 .addGap(18, 18, 18)
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(msg_text, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
                     .addComponent(SentToClient))
@@ -195,8 +269,12 @@ public class Client extends javax.swing.JFrame {
             }
         });
         
+<<<<<<< HEAD
+      
+=======
        
             
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
             
 		Scanner scn=new Scanner(System.in);
 		
@@ -207,8 +285,15 @@ public class Client extends javax.swing.JFrame {
 		
 		 dis=new DataInputStream(s.getInputStream());
 		 dos=new DataOutputStream(s.getOutputStream());
+<<<<<<< HEAD
+                 
+//		  msg_area.setText(Client.name);
+		//send message t
+               // System.out.println(name);
+=======
 		
 		//send message t
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
 		Thread sendMessage =new Thread(new Runnable () {
 			public void run() {
 				//while(true) {
@@ -216,6 +301,10 @@ public class Client extends javax.swing.JFrame {
 				try {
                                         
 					dos.writeUTF(name);
+<<<<<<< HEAD
+//                                        Active.setText(name);
+=======
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -227,6 +316,10 @@ public class Client extends javax.swing.JFrame {
 		});
 		
 		//readMessage thread
+<<<<<<< HEAD
+                int client=0;
+=======
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
 		
 		Thread readMessage;
         readMessage = new Thread(new Runnable() {
@@ -234,8 +327,15 @@ public class Client extends javax.swing.JFrame {
                 while(true) {
                     try {
                         String msg=dis.readUTF();
+<<<<<<< HEAD
+                        msg_area.setText(name);
+                        
+                        
+                       Activity.setText(Activity.getText().trim()+"\n"+msg);
+=======
 //                        msg_area.setText("k");
                             msg_area.setText(msg_area.getText().trim()+" "+msg);
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
                         System.out.println(msg);
                         
                     } catch (IOException e) {
@@ -251,7 +351,10 @@ public class Client extends javax.swing.JFrame {
 		readMessage.start();
 	}
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
     
     //client code end
 //    public static void main(String args[]) {
@@ -287,12 +390,28 @@ public class Client extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+<<<<<<< HEAD
+    private static javax.swing.JTextArea Active;
+    private static javax.swing.JTextArea Activity;
+    private javax.swing.JButton ClientSentButton;
+    private javax.swing.JTextField SentToClient;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+=======
     private static javax.swing.JList<String> ActiveList;
     private javax.swing.JButton ClientSentButton;
     private javax.swing.JTextField SentToClient;
     private javax.swing.JScrollPane jScrollPane1;
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
     private static javax.swing.JTextField msg_area;
     private javax.swing.JTextField msg_text;
     private javax.swing.JTextField status;
     // End of variables declaration//GEN-END:variables
+<<<<<<< HEAD
+
+    
+
+
+=======
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
 }

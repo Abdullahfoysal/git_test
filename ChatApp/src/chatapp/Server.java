@@ -40,20 +40,74 @@ public class Server extends javax.swing.JFrame {
     private void initComponents() {
 
         msg_area = new javax.swing.JTextField();
+<<<<<<< HEAD
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Activity = new javax.swing.JTextArea();
+        jTextField1 = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Active = new javax.swing.JTextArea();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        msg_area.setText("                    Server is ON");
+=======
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         msg_area.setText("server is ON");
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
         msg_area.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 msg_areaActionPerformed(evt);
             }
         });
 
+<<<<<<< HEAD
+        Activity.setColumns(20);
+        Activity.setRows(5);
+        jScrollPane1.setViewportView(Activity);
+
+        jTextField1.setText("Active");
+
+        Active.setColumns(20);
+        Active.setRows(5);
+        jScrollPane2.setViewportView(Active);
+
+=======
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+<<<<<<< HEAD
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(107, 107, 107)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(83, 83, 83))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(msg_area, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33))))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(msg_area, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)))
+                .addContainerGap())
+=======
             .addGroup(layout.createSequentialGroup()
                 .addComponent(msg_area, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -61,6 +115,7 @@ public class Server extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(msg_area, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
         );
 
         pack();
@@ -75,6 +130,16 @@ public class Server extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     //my code start
+<<<<<<< HEAD
+    
+    
+    public static Vector<ClientHandler>ar=new Vector<>();
+    
+      
+                
+	
+	static int ClientCount=1;
+=======
     static Vector<ClientHandler>ar=new Vector<>();
     
         JFrame f=new JFrame();
@@ -82,6 +147,7 @@ public class Server extends javax.swing.JFrame {
                 
 	
 	static int ClientCount=0;
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
 	public static void main(String[] args) throws IOException {
             
             
@@ -94,8 +160,12 @@ public class Server extends javax.swing.JFrame {
 		
 		ServerSocket ss=new ServerSocket(1234);
 		Socket s;
+<<<<<<< HEAD
+               		
+=======
                  
 		
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
 		while(true) {
 			s=ss.accept();
 			System.out.println("New client request received "+s );
@@ -111,21 +181,41 @@ public class Server extends javax.swing.JFrame {
 			Thread t=new Thread(mtch);
                         
                         //print to server textArea
+<<<<<<< HEAD
+                        //msg_area.setText(msg_area.getText().trim()+" "+name+ " Added to Server\n");
+			
+      			System.out.println("Adding this client to active client list");
+                        
+                        Activity.setText(Activity.getText().trim()+"\n"+"New Client:"+name+" is Connected");
+                        Active.setText(Active.getText().trim()+"\n"+ClientCount+"."+name);
+=======
                         msg_area.setText(msg_area.getText().trim()+" "+name+ " Added to Server\n");
 			
       			System.out.println("Adding this client to active client list");
                         
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
                        
 			
 			ar.add(mtch);
                         
+<<<<<<< HEAD
+                     //  Client.Refresh(ar);
+                        
+                    
+=======
                         Active.addElement(name);
                         
                         final JList<String> ActiveList = new JList<>(Active);  
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
 			
 			t.start();
 			
 			ClientCount++;
+<<<<<<< HEAD
+                        
+                        
+=======
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
 			
 			
 			
@@ -178,6 +268,14 @@ public class Server extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+<<<<<<< HEAD
+    private static javax.swing.JTextArea Active;
+    private static javax.swing.JTextArea Activity;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
+=======
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
     private static javax.swing.JTextField msg_area;
     // End of variables declaration//GEN-END:variables
 }
@@ -186,7 +284,11 @@ public class Server extends javax.swing.JFrame {
 class ClientHandler implements Runnable{
 	 
 	 Scanner scn=new Scanner(System.in);
+<<<<<<< HEAD
+	 String name;
+=======
 	 private String name;
+>>>>>>> 15ab5f76f7b86e84c76a59ddc836fa4658ef686e
 	 private DataInputStream dis;
 	 private DataOutputStream dos;
 	 Socket s;
