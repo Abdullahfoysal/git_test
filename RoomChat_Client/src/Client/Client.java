@@ -41,6 +41,8 @@ public class Client extends javax.swing.JFrame {
     }
     public Client() {
         initComponents();
+         msg_area.setText(this.name);
+      
     }
 
     /**
@@ -59,7 +61,7 @@ public class Client extends javax.swing.JFrame {
         SentToClient = new javax.swing.JTextField();
         status = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        Active = new javax.swing.JTextArea();
+        online = new javax.swing.JTextArea();
         ClientSentButton = new javax.swing.JButton();
         LogOut = new javax.swing.JButton();
 
@@ -97,9 +99,9 @@ public class Client extends javax.swing.JFrame {
             }
         });
 
-        Active.setColumns(20);
-        Active.setRows(5);
-        jScrollPane3.setViewportView(Active);
+        online.setColumns(20);
+        online.setRows(5);
+        jScrollPane3.setViewportView(online);
 
         ClientSentButton.setText("send");
         ClientSentButton.addActionListener(new java.awt.event.ActionListener() {
@@ -124,21 +126,20 @@ public class Client extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(ClientSentButton)
-                    .addGap(105, 105, 105)
-                    .addComponent(LogOut))
-                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(msg_text, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(SentToClient, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(ClientSentButton)
+                .addGap(105, 105, 105)
+                .addComponent(LogOut))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(msg_text, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(SentToClient, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,6 +241,8 @@ public class Client extends javax.swing.JFrame {
             }
         });
         
+         
+        
        
             
             
@@ -290,7 +293,7 @@ public class Client extends javax.swing.JFrame {
                             
                         }
 //                        msg_area.setText("k");
-                            msg_area.setText(name);
+                           
                             Activity.setText(Activity.getText().trim()+"\n"+msg);
                         System.out.println(msg);
                         
@@ -344,7 +347,6 @@ public class Client extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JTextArea Active;
     private static javax.swing.JTextArea Activity;
     private javax.swing.JButton ClientSentButton;
     private javax.swing.JButton LogOut;
@@ -353,6 +355,7 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private static javax.swing.JTextField msg_area;
     private javax.swing.JTextField msg_text;
+    private static javax.swing.JTextArea online;
     private javax.swing.JTextField status;
     // End of variables declaration//GEN-END:variables
 }

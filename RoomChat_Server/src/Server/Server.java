@@ -13,6 +13,8 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -172,7 +174,7 @@ public class Server extends javax.swing.JFrame {
 			
 			System.out.println("creating a new handler for this client..");
 			
-			ClientHandler mtch=new ClientHandler(s,name,dis,dos,server);
+			ClientHandler mtch=new ClientHandler(s,name,dis,dos,server,true);
 			
 			Thread t=new Thread(mtch);
                         
@@ -260,32 +262,6 @@ public class Server extends javax.swing.JFrame {
        System.out.println(logout.length());
        System.out.println(logout);
        
-//       for(int i=0;i<logout.length();i+=s.length()){
-//           int c=0;
-//           check="";
-//          for(int j=0;j<s.length();j++)
-//          {
-//              if(logout.charAt(i+j)==s.charAt(j)){c++;}
-//              
-//          }
-//          
-//          if(c==s.length()){
-//              System.out.println("assee bro");
-//             // ActiveClient.setText(s+"out");
-//             
-//              
-//              
-//          }
-//          else{
-//              for(int k=i;k<logout.length();k++){
-//                  active+=logout.charAt(k);
-//              }
-//              
-//          }
-//          
-//           
-//       }
-       //ActiveClient.setText( "logout.length()");
        
        
        
@@ -300,17 +276,22 @@ class ClientHandler implements Runnable{
 	 private String name;
 	 private DataInputStream dis;
 	 private DataOutputStream dos;
+         private boolean begin;
 	 Socket s;
 	 boolean isloggedin;
          Server server;
 	 
-	 public ClientHandler(Socket s, String name,DataInputStream dis,DataOutputStream dos,Server server) {
+	 public ClientHandler(Socket s, String name,DataInputStream dis,DataOutputStream dos,Server server,boolean begin) {
 		 
 		 this.dis=dis;
 		 this.name=name;
 		 this.dos=dos;
 		 this.isloggedin=true;
                  this.server=server;
+                 this.begin=begin;
+                 
+                
+                 
                 
 		 
 	 }
@@ -321,12 +302,29 @@ class ClientHandler implements Runnable{
              
              
          }
+         void first(){
+              for(ClientHandler mc:Server.ar) {
+                    if(mc.name==name){
+                        System.out.println("clent Ceated");
+                         try {
+                 mc.dos.writeUTF(" You are connected to server");
+             } catch (IOException ex) {
+                 Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+             }
+                         break;
+                    }
+                 }
+         }
 
 	@Override
 	public void run() {
 		String received;
+               
+                
 		while(true) {
 			try {
+                               
+                            
 				received=dis.readUTF();
                                 
 				System.out.println(received+" server");
@@ -348,7 +346,9 @@ class ClientHandler implements Runnable{
 				//search recepient in active list
 				
 				for(ClientHandler mc:Server.ar) {
-					if(mc.name.contentEquals(recepient) && mc.isloggedin==true) {
+                                       
+                                        
+                                        if(mc.name.contentEquals(recepient) && mc.isloggedin==true) {
 						mc.dos.writeUTF(this.name+ " : " + MsgToSend+'\n');
 						break;
 					}
