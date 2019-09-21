@@ -54,6 +54,7 @@
     </style>
 
     <style name="menuStyle">
+        <item name="android:layout_marginTop">20dp</item>
         <item name="android:textSize">25dp</item>
         <item name="android:gravity">left</item>
         <item name="android:color">@color/colorAccent</item>

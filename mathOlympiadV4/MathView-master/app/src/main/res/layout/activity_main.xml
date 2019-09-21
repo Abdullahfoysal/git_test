@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/drawer_navId"
-    tools:context="com.nishant.mathsample.navigationMenu">
+    android:id="@+id/drawer_layout"
+    android:fitsSystemWindows="true"
+    tools:context="com.nishant.mathsample.navigationMenu"
+    tools:openDrawer="start">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,6 +24,9 @@
         android:orientation="vertical"
         android:weightSum="2">
         <Button
+            android:gravity="center"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="50dp"
             android:id="@+id/addProblemButtonId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,14 +50,40 @@
 
     </LinearLayout>
 
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#0E74DF"
+            android:id="@+id/toolbar"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:elevation="10dp"/>
+        <FrameLayout
+            android:id="@+id/fragment_containerLowerPartOfToolbarId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+
     <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_view"
+
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:menu="@menu/nav_menu"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu_test"/>
 
 
-    </android.support.design.widget.NavigationView>
+
+
 
 </android.support.v4.widget.DrawerLayout>
