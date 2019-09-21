@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorAccent"
+    android:orientation="vertical"
+    android:weightSum="4"
+    android:gravity="center"
+    android:padding="16dp">
+
+
+
+    <ImageView
+        android:layout_weight="3"
+        android:layout_marginTop="30dp"
+        android:padding="2dp"
+        android:id="@+id/profileImageId"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/p1"/>
+
+
+    <TextView
+        android:id="@+id/userNameProfileId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="Abdullah foysal"/>
+    <TextView
+        android:id="@+id/userEmailProfileId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="abdullah32@student.sust.edu"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blood Group B+"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+
+
+
+    <TextView
+        android:id="@+id/userPhoneProfileId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="01960910540"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+
+
+
+</LinearLayout>
