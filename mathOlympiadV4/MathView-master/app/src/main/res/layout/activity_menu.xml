@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+
         android:background="@color/menuBackGroundColor"
         tools:context="com.nishant.mathsample.menuActivity">
 
@@ -30,10 +31,11 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    style="@style/menuStyle"
+
+                        style="@style/menuStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="preview"
+                    android:text="Preview"
 
                     />
 
@@ -41,14 +43,16 @@
                     style="@style/preview"
                     android:id="@+id/math_view"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp">
+                    android:layout_height="wrap_content">
 
                 </com.nishant.math.MathView>
 
 
 
+
+
                 <TextView
-                    style="@style/menuStyle"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Add Problem Statement"
@@ -60,7 +64,7 @@
                     android:id="@+id/input_view"
                     style="@style/addProblems"
                     android:layout_width="match_parent"
-                    android:layout_height="158dp"
+                    android:layout_height="wrap_content"
                     android:hint="Problem statement"
                     android:inputType="textNoSuggestions|textMultiLine"
                     tools:ignore="LabelFor"/>
@@ -68,7 +72,7 @@
 
 
                 <TextView
-                    style="@style/menuStyle"
+                    
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Add Problem Solution"

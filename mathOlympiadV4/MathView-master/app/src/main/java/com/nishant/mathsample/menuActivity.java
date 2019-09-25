@@ -174,7 +174,7 @@ public class menuActivity extends AppCompatActivity implements View.OnClickListe
                 int id=item.getItemId();
                 if(id==R.id.solveProblemId){
                     Toast.makeText(context,"solved problems",Toast.LENGTH_SHORT).show();
-                    System.out.println("Asse");
+
                 }
                 if(id==R.id.attemptedProblems){
                     Toast.makeText(context,"attempted problems",Toast.LENGTH_SHORT).show();

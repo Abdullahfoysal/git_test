@@ -25,6 +25,7 @@
         tools:context="com.nishant.mathsample.problemProfileActivity">
 
         <TextView
+            android:layout_marginTop="60dp"
             android:id="@+id/problemTitleId"
             android:text="Title"
             android:textAlignment="center"
