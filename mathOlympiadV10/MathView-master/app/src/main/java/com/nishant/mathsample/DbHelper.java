@@ -31,6 +31,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public long saveToLocalDatabase(String name,int sync_status,SQLiteDatabase database){
+
         ContentValues contentValues=new ContentValues();
 
         contentValues.put(DbContract.NAME,name);
@@ -51,11 +52,17 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public void updateLocalDatabase(String name,int sync_status,SQLiteDatabase database){
+
+
+
         ContentValues contentValues=new ContentValues();
         contentValues.put(DbContract.SYNC_STATUS,sync_status);
+
         String selection =DbContract.NAME+" LIKE ?";
         String[] selection_args={name};
-        database.update(DbContract.TABLE_NAME,contentValues,selection,selection_args);
+       database.update(DbContract.TABLE_NAME,contentValues,selection,selection_args);
+       // System.out.println("update " +k);
+
 
     }
 }

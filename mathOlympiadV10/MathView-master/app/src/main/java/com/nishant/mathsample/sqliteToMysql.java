@@ -1,6 +1,9 @@
 package com.nishant.mathsample;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
@@ -32,6 +35,7 @@ public class sqliteToMysql extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     RecyclerAdapter adapter;
     ArrayList<Contact>arrayList=new ArrayList<>();
+    BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,13 @@ public class sqliteToMysql extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         readFromLocalStorage();
+        broadcastReceiver=new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                readFromLocalStorage();
+
+            }
+        };
     }
     public void submitName(View view){
 
@@ -89,6 +100,7 @@ public class sqliteToMysql extends AppCompatActivity {
 
 
         if(checkNetworkConnection()){
+
 
             StringRequest stringRequest=new StringRequest(Request.Method.POST, DbContract.SERVER_URL,
                     new Response.Listener<String>() {
@@ -156,5 +168,18 @@ public class sqliteToMysql extends AppCompatActivity {
         readFromLocalStorage();
         dbHelper.close();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(broadcastReceiver,new IntentFilter(DbContract.UI_UPDATE_BROADCAST));
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
     }
 }

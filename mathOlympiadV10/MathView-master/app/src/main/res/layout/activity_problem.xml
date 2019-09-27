@@ -19,6 +19,7 @@
         tools:context="com.nishant.mathsample.problemActivity">
 
     <ListView
+        android:layout_marginTop="60dp"
         android:id="@+id/problemActivityListViewId"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

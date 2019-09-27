@@ -51,6 +51,7 @@ public class problemActivity extends AppCompatActivity implements AdapterView.On
 
     }
     public void loadData() {
+
         ArrayList<String> listData = new ArrayList<>();
 
          cursor = databaseHelper.showAllData();
@@ -61,10 +62,12 @@ public class problemActivity extends AppCompatActivity implements AdapterView.On
         } else {
             while (cursor.moveToNext()) {
                 listData.add(cursor.getString(0)+". "+cursor.getString(1));
+
             }
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.problem_title_list_view, R.id.problemTitleTextListViewId, listData);
+
         listView.setAdapter(adapter);
 
 

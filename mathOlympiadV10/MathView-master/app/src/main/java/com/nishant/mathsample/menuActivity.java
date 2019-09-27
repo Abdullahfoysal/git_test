@@ -40,7 +40,7 @@ public class menuActivity extends AppCompatActivity implements View.OnClickListe
     private Toolbar toolbar;
 
     private EditText problemStatement,problemSolution;
-    private Button saveButton,loadButton;
+    private Button saveButton,loadButton,syncButton;
     //private writeRead WriteRead=new writeRead();
    @BindView(R.id.math_view)
    MathView mathView;
@@ -58,7 +58,6 @@ public class menuActivity extends AppCompatActivity implements View.OnClickListe
         context=this;
         loadNavMenu();
 
-        //testing
 
         //init Database
         myDatabaseHelper=new MyDatabaseHelper(this);
@@ -75,11 +74,13 @@ public class menuActivity extends AppCompatActivity implements View.OnClickListe
         problemSolution = this.<EditText>findViewById(R.id.addproblemSolutionEditTextId);
         saveButton= this.<Button>findViewById(R.id.saveButtonId);
         loadButton= this.<Button>findViewById(R.id.loadButtonId);
+        syncButton= this.<Button>findViewById(R.id.syncButtonId);
 
         Toast.makeText(this,"menu",Toast.LENGTH_SHORT).show();
 
         saveButton.setOnClickListener(this);
         loadButton.setOnClickListener(this);
+        syncButton.setOnClickListener(this);
 
 
         mathView.setText("$$(a+b)^2$$");
@@ -115,7 +116,7 @@ public class menuActivity extends AppCompatActivity implements View.OnClickListe
             if (! problem_statement.isEmpty() && !solution.isEmpty()) {
                 ///Data insert to Database
 
-                long rowId=myDatabaseHelper.insertData("Title/Short Description",problem_statement,solution,"tag");
+                long rowId=myDatabaseHelper.insertData("Title/Short Description",problem_statement,solution,"tag","foysal",1);//failedstatus=1
 
                 if(rowId==-1)Toast.makeText(getApplicationContext(), "unsuccessfull", Toast.LENGTH_SHORT).show();
                 else {
@@ -131,6 +132,9 @@ public class menuActivity extends AppCompatActivity implements View.OnClickListe
         else if(view.getId()==R.id.loadButtonId){
 
             startActivity(new Intent(getApplicationContext(),problemActivity.class));
+        }
+        else if(view.getId()==R.id.syncButtonId){
+            startActivity(new Intent(getApplicationContext(),dataSyncActivity.class));
         }
     }
 
