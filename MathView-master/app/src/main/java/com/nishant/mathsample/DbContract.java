@@ -15,6 +15,7 @@ public class DbContract {
     public static final String NAME="name";
     public static final String PROBLEM_ID="problemId";
     public static final String SYNC_STATUS="syncstatus";
+    public static final String DeleteKoreDibo="ahaha";
 
 
 
