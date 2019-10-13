@@ -7,6 +7,7 @@ repositories {
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId 'com.nishant.mathsample'
         minSdkVersion 17

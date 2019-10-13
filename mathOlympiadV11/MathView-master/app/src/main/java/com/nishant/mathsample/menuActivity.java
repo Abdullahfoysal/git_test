@@ -39,7 +39,7 @@ public class menuActivity extends AppCompatActivity implements View.OnClickListe
     private menuActivity context;
     private Toolbar toolbar;
 
-    private EditText problemStatement,problemSolution;
+    private EditText Title,Tag,Setter,problemStatement,problemSolution;
     private Button saveButton,loadButton,syncButton;
     //private writeRead WriteRead=new writeRead();
    @BindView(R.id.math_view)
@@ -69,7 +69,9 @@ public class menuActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
-
+        Title= this.<EditText>findViewById(R.id.TitleEditTextId);
+        Tag= this.<EditText>findViewById(R.id.TagEditTextId);
+        Setter= this.<EditText>findViewById(R.id.SetterEditTextId);
         problemStatement = this.<EditText>findViewById(R.id.input_view);
         problemSolution = this.<EditText>findViewById(R.id.addproblemSolutionEditTextId);
         saveButton= this.<Button>findViewById(R.id.saveButtonId);
@@ -110,13 +112,16 @@ public class menuActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if (view.getId() == R.id.saveButtonId) {
 
+            String title=Title.getText().toString();
+            String tag=Tag.getText().toString();
+            String setter=Setter.getText().toString();
             String problem_statement = problemStatement.getText().toString();
             String solution = problemSolution.getText().toString();
 
-            if (! problem_statement.isEmpty() && !solution.isEmpty()) {
+            if ( !title.isEmpty()&& !tag.isEmpty() && !setter.isEmpty() && ! problem_statement.isEmpty() && !solution.isEmpty()) {
                 ///Data insert to Database
 
-                long rowId=myDatabaseHelper.insertData("Title/Short Description",problem_statement,solution,"tag","foysal",1);//failedstatus=1
+                long rowId=myDatabaseHelper.insertData(title,problem_statement,solution,tag,setter,DbContract.SYNC_STATUS_FAILED);//failedstatus=1
 
                 if(rowId==-1)Toast.makeText(getApplicationContext(), "unsuccessfull", Toast.LENGTH_SHORT).show();
                 else {
@@ -126,7 +131,7 @@ public class menuActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
             else {
-                Toast.makeText(getApplicationContext(), "Add statement and solution", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Add All information*", Toast.LENGTH_SHORT).show();
             }
         }
         else if(view.getId()==R.id.loadButtonId){

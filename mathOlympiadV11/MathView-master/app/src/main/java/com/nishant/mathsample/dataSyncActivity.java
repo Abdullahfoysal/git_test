@@ -57,7 +57,9 @@ public class dataSyncActivity extends AppCompatActivity {
         adapter =new RecyclerAdapter(arrayList);
         recyclerView.setAdapter(adapter);
 
+
         saveToAppServer();
+        readFromLocalStorage();
 
         broadcastReceiver=new BroadcastReceiver() {
             @Override
@@ -122,6 +124,8 @@ public class dataSyncActivity extends AppCompatActivity {
 
         if(checkNetworkConnection()) {
 
+            Toast.makeText(getApplicationContext(),"network is on",Toast.LENGTH_SHORT).show();
+
             myDatabaseHelper = new MyDatabaseHelper(this);
             final SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
             Cursor cursor = myDatabaseHelper.readFromLocalDatabase(database);
@@ -159,6 +163,7 @@ public class dataSyncActivity extends AppCompatActivity {
                                         }
 
                                     } catch (JSONException e) {
+
                                         e.printStackTrace();
                                     }
 
@@ -196,11 +201,12 @@ public class dataSyncActivity extends AppCompatActivity {
 
 
             }
+            cursor.close();
 
         }
 
 
-        readFromLocalStorage();
+
 
     }
 

@@ -7,14 +7,16 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/toolBarStyle">
-        <activity android:name=".dataSyncActivity"></activity>
-        <activity android:name=".sqliteToMysql">
+
+        <activity android:name=".dataFetchingActivityMain" >
 
         </activity>
+        <activity android:name=".dataSyncActivity" />
+        <activity android:name=".sqliteToMysql" />
         <activity android:name=".testingMain" />
         <activity android:name=".navigationMenu" />
         <activity android:name=".problemProfileActivity" />
