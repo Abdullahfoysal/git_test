@@ -32,7 +32,7 @@ public class dataFetchingActivityMain extends AppCompatActivity {
         Title=usernameEditText.getText().toString();
         Problem=passwordEditText.getText().toString();
         String method="saveOnline";
-        BackgroundTask backgroundTask=new BackgroundTask(this,textView);
+        BackgroundTask backgroundTask=new BackgroundTask(this);
         backgroundTask.execute(method,name,Title,Problem,"solution","tag","setter");
 
     }
@@ -40,9 +40,9 @@ public class dataFetchingActivityMain extends AppCompatActivity {
 
         Title=usernameEditText.getText().toString();
         Problem=passwordEditText.getText().toString();
-        String method="saveLocal";
-        BackgroundTask backgroundTask=new BackgroundTask(this,textView);
-        backgroundTask.execute(method,Problem);
+        String method="saveFromOnline";
+        BackgroundTask backgroundTask=new BackgroundTask(this);
+        backgroundTask.execute(method);
 
     }
 

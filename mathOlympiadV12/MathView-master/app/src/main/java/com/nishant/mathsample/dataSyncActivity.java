@@ -138,7 +138,11 @@ public class dataSyncActivity extends AppCompatActivity {
                 final String Solution = cursor.getString(3);//solution
                final String Tag = cursor.getString(4);//Tags
                 final String Setter = cursor.getString(5);// problem setter
-                final int sync_status = cursor.getInt(cursor.getColumnIndex(DbContract.SYNC_STATUS));
+                final int sync_status = cursor.getInt(6);
+                final String updateDate = cursor.getString(7);//
+                final String updateTime = cursor.getString(8);//
+                final String lastUpdateDate = cursor.getString(9);//
+                final String lastUpdateTime = cursor.getString(10);//
                 if(sync_status==DbContract.SYNC_STATUS_FAILED){
 
 
@@ -186,6 +190,10 @@ public class dataSyncActivity extends AppCompatActivity {
                             params.put("solution", Solution);
                             params.put("tag", Tag);
                             params.put("setter", Setter);
+                            params.put("updateDate", updateDate);
+                            params.put("updateTime", updateTime);
+                            params.put("lastUpdateDate", lastUpdateDate);
+                            params.put("lastUpdateTime", lastUpdateTime);
                             // params.put("syncstatus", Integer.toString(sync_status));
 
                             return params;
