@@ -1,7 +1,7 @@
 package com.nishant.mathsample;
 
 import android.content.Intent;
-import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,96 +12,44 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+public class homeActivity extends AppCompatActivity implements View.OnClickListener {
 
-public class problemActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
-
-    private ListView listView;
-    private MyDatabaseHelper databaseHelper;
-    private Cursor cursor;
-
+    MyDatabaseHelper myDatabaseHelper;
+    //nav menu begin
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mtoggle;
-    private problemActivity context;
+    private homeActivity context;
     private Toolbar toolbar;
+    //nav menu end
+
+
+    //button
+    private Button showProblemButton,updateProblemButton,addProblemButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_problem);
-
-        //load nav_menu
+        setContentView(R.layout.activity_home);
         context=this;
+
+        loadAll();//nav,button,database
+
+
+    }
+
+
+    private void loadAll(){
+        findAllButton();
         loadNavMenu();
-
-        listView = this.<ListView>findViewById(R.id.problemActivityListViewId);
-        //Data base work
-        databaseHelper = new MyDatabaseHelper(this);
-
-        loadData();
-        listView.setOnItemClickListener(this);
-
-
-    }
-    public void loadData() {
-
-        ArrayList<String> listData = new ArrayList<>();
-
-         cursor = databaseHelper.showAllData();
-
-        if (cursor.getCount() == 0) {
-            Toast.makeText(getApplicationContext(), "NO data is available in database", Toast.LENGTH_LONG).show();
-
-        } else {
-            while (cursor.moveToNext()) {
-                listData.add(cursor.getString(0)+". "+cursor.getString(1));
-
-            }
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.problem_title_list_view, R.id.problemTitleTextListViewId, listData);
-
-        listView.setAdapter(adapter);
-
-
+        initDatabase();
 
     }
 
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-
-        Object obj= getListView().getItemAtPosition(i);
-
-
-
-
-       StringTokenizer st=new StringTokenizer(obj.toString(),".");
-        String problemId="";
-
-        problemId=st.nextToken();
-
-        Toast.makeText(getApplicationContext(),problemId,Toast.LENGTH_SHORT).show();
-
-        Intent intent=new Intent(this,problemProfileActivity.class);
-        intent.putExtra("problemId",problemId);
-
-        startActivity(intent);
-
-    }
-
-    public ListView getListView() {
-
-        return listView;
-    }
     //load nav menu begin
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -127,7 +75,7 @@ public class problemActivity extends AppCompatActivity implements AdapterView.On
 
         toolbar =findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-       // this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         mDrawerLayout =findViewById(R.id.drawer_layout);
         mtoggle =new ActionBarDrawerToggle(context,mDrawerLayout,toolbar,R.string.open,R.string.close);
@@ -142,7 +90,7 @@ public class problemActivity extends AppCompatActivity implements AdapterView.On
                 int id=item.getItemId();
                 if(id==R.id.solveProblemId){
                     Toast.makeText(context,"solved problems",Toast.LENGTH_SHORT).show();
-                    System.out.println("Asse");
+
                 }
                 if(id==R.id.attemptedProblems){
                     Toast.makeText(context,"attempted problems",Toast.LENGTH_SHORT).show();
@@ -159,4 +107,51 @@ public class problemActivity extends AppCompatActivity implements AdapterView.On
     }
     //nav menu function end
 
+
+
+    private void findAllButton(){
+        showProblemButton= this.<Button>findViewById(R.id.showButtonId);
+        updateProblemButton= this.<Button>findViewById(R.id.updateButtonId);
+        addProblemButton= this.<Button>findViewById(R.id.addProblemButtonId);
+
+        showProblemButton.setOnClickListener(this);
+        updateProblemButton.setOnClickListener(this);
+        addProblemButton.setOnClickListener(this);
+    }
+
+    private void initDatabase(){
+        //database init 1
+
+        myDatabaseHelper=new MyDatabaseHelper(this);
+        try {
+
+            SQLiteDatabase sqLiteDatabase =myDatabaseHelper.getWritableDatabase();
+
+        }catch (Exception e){
+
+        }
+        //database init 1 end
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        long id=view.getId();
+        if(id==R.id.showButtonId){
+
+            startActivity(new Intent(this,problemActivity.class));
+
+        }
+        else if(id==R.id.updateButtonId){
+
+            String method="saveFromOnline";
+            BackgroundTask backgroundTask=new BackgroundTask(this);
+            backgroundTask.execute(method);
+
+        }
+        else if(id==R.id.addProblemButtonId){
+            startActivity(new Intent(this,menuActivity.class));
+
+        }
+    }
 }

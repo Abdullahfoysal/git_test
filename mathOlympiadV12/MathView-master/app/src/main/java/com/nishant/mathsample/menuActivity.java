@@ -33,11 +33,12 @@ import butterknife.ButterKnife;
 public class menuActivity extends AppCompatActivity implements View.OnClickListener{
 
     MyDatabaseHelper myDatabaseHelper;
-
+//nav menu begin
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mtoggle;
     private menuActivity context;
     private Toolbar toolbar;
+    //nav menu end
 
     private EditText Title,Tag,Setter,problemStatement,problemSolution;
     private Button saveButton,loadButton,syncButton;
@@ -110,6 +111,7 @@ public class menuActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
         if (view.getId() == R.id.saveButtonId) {
 
             String title=Title.getText().toString();
@@ -121,7 +123,7 @@ public class menuActivity extends AppCompatActivity implements View.OnClickListe
             if ( !title.isEmpty()&& !tag.isEmpty() && !setter.isEmpty() && ! problem_statement.isEmpty() && !solution.isEmpty()) {
                 ///Data insert to Database
 
-                long rowId=myDatabaseHelper.insertData(title,problem_statement,solution,tag,setter,DbContract.SYNC_STATUS_FAILED);//failedstatus=1
+                long rowId=myDatabaseHelper.insertData(title,problem_statement,solution,tag,setter,DbContract.SYNC_STATUS_FAILED,0,0,0,0);//failedstatus=1
 
                 if(rowId==-1)Toast.makeText(getApplicationContext(), "unsuccessfull", Toast.LENGTH_SHORT).show();
                 else {

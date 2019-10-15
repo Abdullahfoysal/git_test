@@ -110,7 +110,7 @@ public class problemProfileActivity extends AppCompatActivity implements View.On
         bundle = getIntent().getExtras();
          problemId=bundle.getString(KEY);
 
-         Toast.makeText(this,problemId,Toast.LENGTH_LONG).show();
+        // Toast.makeText(this,problemId,Toast.LENGTH_LONG).show();
     }
 
     @Override

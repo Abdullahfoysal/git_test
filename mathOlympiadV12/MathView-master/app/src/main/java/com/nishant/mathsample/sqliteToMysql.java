@@ -102,7 +102,7 @@ public class sqliteToMysql extends AppCompatActivity {
         if(checkNetworkConnection()){
 
 
-            StringRequest stringRequest=new StringRequest(Request.Method.POST, DbContract.SERVER_URL,
+            StringRequest stringRequest=new StringRequest(Request.Method.POST, DbContract.SERVER_URL2,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

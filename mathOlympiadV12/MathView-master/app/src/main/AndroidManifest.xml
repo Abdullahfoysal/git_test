@@ -11,24 +11,23 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/toolBarStyle">
-
-        <activity android:name=".dataFetchingActivityMain" >
-
-        </activity>
-        <activity android:name=".dataSyncActivity" />
-        <activity android:name=".sqliteToMysql" />
-        <activity android:name=".testingMain" />
-        <activity android:name=".navigationMenu" />
-        <activity android:name=".problemProfileActivity" />
-        <activity android:name=".problemActivity" />
-        <activity android:name=".menuActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".signUpActivity"></activity>
+        <activity android:name=".homeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".dataFetchingActivityMain" />
+        <activity android:name=".dataSyncActivity" />
+        <activity android:name=".sqliteToMysql" />
+        <activity android:name=".testingMain" />
+        <activity android:name=".navigationMenu" />
+        <activity android:name=".problemProfileActivity" />
+        <activity android:name=".problemActivity"></activity>
+        <activity android:name=".menuActivity" />
+        <activity android:name=".MainActivity" />
 
         <receiver android:name=".NetworkMonitor">
             <intent-filter>
