@@ -24,7 +24,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String UPDATE_TIME="updateTime";
     public static final String LAST_UPDATE_DATE="lastUpdateDate";
     public static final String LAST_UPDATE_TIME="lastUpdateTime";
-    private static final int VERSION_NUMBER=1;
+    private static final int VERSION_NUMBER=2;
     private static final String CREATE_PROBLEM_AND_SOLUTION_TABLE="CREATE TABLE "+PROBLEM_AND_SOLUTION_TABLE+"( "+PROBLEM_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+TITLE+" VARCHAR(100), "+PROBLEM_STATEMENT+" VARCHAR(500), "+
             SOLUTION+" VARCHAR(50), "+TAG+" VARCHAR(100),"+SETTER+" VARCHAR(25),"+SYNC_STATUS+" INTEGER,"+UPDATE_DATE+" INTEGER, "+UPDATE_TIME+" INTEGER,"+LAST_UPDATE_DATE+" INTEGER,"+LAST_UPDATE_TIME+" INTEGER ); ";
     private static final String DROP_TABLE="DROP TABLE IF EXISTS "+PROBLEM_AND_SOLUTION_TABLE;
@@ -42,7 +42,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String INSTITUTION="institution";
     private static final String SOLVING_STRING="solvingString";
     private static final String TOTAL_SOLVED="totalSolved";
-    private static final String CREATE_USER_INFORMATION_TABLE="CREATE TABLE "+USER_INFORMATION_TABLE+"( "+NAME+" VARCHAR(25), "+USER_NAME+" VARCHAR(25), "+PASSWORD+" VARCHAR(25), "+GENDER+" VARCHAR(25), "+DATE_BIRTH+" VARCHAR(25), "+EMAIL+" VARCHAR(25), "+PHONE_NUMBER+" VARCHAR(25), "+INSTITUTION+" VARCHAR(50), "+SOLVING_STRING+" TEXT, "+TOTAL_SOLVED+" VARCHAR(25) );";
+    private static final String CREATE_USER_INFORMATION_TABLE="CREATE TABLE "+USER_INFORMATION_TABLE+"( "+NAME+" VARCHAR(25), "+USER_NAME+" VARCHAR(25), "+PASSWORD+" VARCHAR(25), "+GENDER+" VARCHAR(25), "+DATE_BIRTH+" VARCHAR(25), "+EMAIL+" VARCHAR(25), "+PHONE_NUMBER+" VARCHAR(25), "+INSTITUTION+" VARCHAR(50), "+SOLVING_STRING+" TEXT, "+TOTAL_SOLVED+" VARCHAR(25), "+DbContract.SYNC_STATUS+" INTEGER );";
     private static final String SELECT_ALL_FROM_USER_INFORMATION_TABLE="SELECT * FROM "+USER_INFORMATION_TABLE;
 
 
@@ -108,7 +108,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return  rowId;
 
     }
-    public long insertData(String name,String userName,String password,String gender,String dateBirth,String email,String phone,String institution,String solvingString,String totalSolved){
+    public long insertData(String name,String userName,String password,String gender,String dateBirth,String email,String phone,String institution,String solvingString,String totalSolved,int syncstatus){
 
         SQLiteDatabase sqLiteDatabase= this.getWritableDatabase();
 
@@ -123,6 +123,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(INSTITUTION,institution);
         contentValues.put(SOLVING_STRING,solvingString);
         contentValues.put(TOTAL_SOLVED,totalSolved);
+        contentValues.put(DbContract.SYNC_STATUS,syncstatus);
+
 
         long rowId= sqLiteDatabase.insert(USER_INFORMATION_TABLE,null,contentValues);
         return rowId;
@@ -148,6 +150,17 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
 
     }
+    public void updateLocalDatabase(int sync_status,String userName,SQLiteDatabase database){
+
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(DbContract.SYNC_STATUS,sync_status);
+
+        String selection =USER_NAME+" LIKE ?";
+        String[] selection_args={userName};
+        database.update(USER_INFORMATION_TABLE,contentValues,selection,selection_args);
+
+
+    }
 
 
 
@@ -165,9 +178,16 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public Cursor readFromLocalDatabase(SQLiteDatabase database){
+    public Cursor readFromLocalDatabase(String tableName,SQLiteDatabase database){
+        Cursor cursor=null;
 
-        Cursor cursor = database.rawQuery(SELECT_ALL_FROM_PROBLEM_AND_SOLUTION_TABLE,null);
+        if(tableName.equals(PROBLEM_AND_SOLUTION_TABLE))
+
+         cursor = database.rawQuery(SELECT_ALL_FROM_PROBLEM_AND_SOLUTION_TABLE,null);
+
+        else if(tableName.equals(USER_INFORMATION_TABLE)){
+            cursor = database.rawQuery(SELECT_ALL_FROM_USER_INFORMATION_TABLE,null);
+        }
 
         return cursor;
 

@@ -41,6 +41,21 @@
             android:text="Add Problem"
             android:padding="5dp"/>
 
+        <Button
+
+            android:id="@+id/signUpButtonId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:padding="5dp"/>
+        <Button
+
+            android:id="@+id/uploadUserInformationId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Synchronize User Data to Online"
+            android:padding="5dp"/>
+
 
 
     </LinearLayout>
