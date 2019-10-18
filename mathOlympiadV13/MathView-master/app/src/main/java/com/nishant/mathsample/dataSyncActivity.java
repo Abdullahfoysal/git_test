@@ -64,7 +64,7 @@ public class dataSyncActivity extends AppCompatActivity {
         broadcastReceiver=new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                 //saveToAppServer();
+
                 readFromLocalStorage();
 
             }
@@ -77,24 +77,18 @@ public class dataSyncActivity extends AppCompatActivity {
         arrayList.clear();
 
 
-        //DbHelper dbHelper=new DbHelper(this);
-        //SQLiteDatabase database=dbHelper.getReadableDatabase();
-//        Cursor cursor=dbHelper.readFromLocalDatabase(database);
            myDatabaseHelper=new MyDatabaseHelper(this);
            SQLiteDatabase database=myDatabaseHelper.getReadableDatabase();
-           Cursor cursor=myDatabaseHelper.readFromLocalDatabase(database);
+
+           Cursor cursor=myDatabaseHelper.readFromLocalDatabase("userInformation",database);
 
            while (cursor.moveToNext()){
-            //String name=cursor.getString(cursor.getColumnIndex(DbContract.NAME));
-               String ProblemId=cursor.getString(0);//problemId
-               String Title=cursor.getString(1);//Title
-               String Problem=cursor.getString(2);//problemStatement
-               String Solution=cursor.getString(3);//solution
-               String Tag=cursor.getString(4);//Tags
-               String Setter=cursor.getString(5);// problem setter
-               int sync_status=cursor.getInt(cursor.getColumnIndex(DbContract.SYNC_STATUS));
 
-               String save=ProblemId+". "+Title;
+                String userName=cursor.getString(1);
+               int sync_status=cursor.getInt(10);
+
+
+               String save="SIGN UP of "+userName;
 
 
 
@@ -118,7 +112,7 @@ public class dataSyncActivity extends AppCompatActivity {
         return (networkInfo!=null && networkInfo.isConnected());
 
     }
-    private void saveToAppServer(){
+    public void saveToAppServer(){
 
 
 
@@ -128,25 +122,26 @@ public class dataSyncActivity extends AppCompatActivity {
 
             myDatabaseHelper = new MyDatabaseHelper(this);
             final SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
-            Cursor cursor = myDatabaseHelper.readFromLocalDatabase(database);
+            Cursor cursor = myDatabaseHelper.readFromLocalDatabase("userInformation",database);
 
             while (cursor.moveToNext()) {
-                //String name=cursor.getString(cursor.getColumnIndex(DbContract.NAME));
-                final String ProblemId = cursor.getString(0);//problemId
-                final String Title = cursor.getString(1);//Title
-                final String Problem = cursor.getString(2);//problemStatement
-                final String Solution = cursor.getString(3);//solution
-               final String Tag = cursor.getString(4);//Tags
-                final String Setter = cursor.getString(5);// problem setter
-                final int sync_status = cursor.getInt(6);
-                final String updateDate = cursor.getString(7);//
-                final String updateTime = cursor.getString(8);//
-                final String lastUpdateDate = cursor.getString(9);//
-                final String lastUpdateTime = cursor.getString(10);//
+                //USER INFORMATION UPDATE TO ONLINE
+                final String NAME = cursor.getString(0);//
+                final String USERNAME = cursor.getString(1);//Title
+                final String PASSWORD= cursor.getString(2);//problemStatement
+                final String GENDER = cursor.getString(3);//solution
+                final String BIRTHDATE= cursor.getString(4);//Tags
+                final String EMAIL = cursor.getString(5);// problem setter
+                final String PHONE = cursor.getString(6);//
+                final String INSTITUTION = cursor.getString(7);//
+                final String SOLVINGSTRING = cursor.getString(8);//
+                final String TOTALSOLVED = cursor.getString(9);//
+                final int sync_status = cursor.getInt(10);
+
                 if(sync_status==DbContract.SYNC_STATUS_FAILED){
 
 
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_URL2,
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.USERDATASYNC_URL,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -157,7 +152,7 @@ public class dataSyncActivity extends AppCompatActivity {
                                         if (Response.equals("OK")) {
                                             Toast.makeText(getApplicationContext(), "saved on server", Toast.LENGTH_SHORT).show();
 
-                                            myDatabaseHelper.updateLocalDatabase(ProblemId,DbContract.SYNC_STATUS_OK,database);
+                                            myDatabaseHelper.updateLocalDatabase(DbContract.SYNC_STATUS_OK,USERNAME,database);
 
 
                                         } else {
@@ -169,6 +164,7 @@ public class dataSyncActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
 
                                         e.printStackTrace();
+                                        Toast.makeText(getApplicationContext(),"Exception occur 404",Toast.LENGTH_SHORT).show();
                                     }
 
 
@@ -185,16 +181,16 @@ public class dataSyncActivity extends AppCompatActivity {
                             Map<String, String> params = new HashMap<>();
 
 
-                            params.put("title", Title);
-                            params.put("problem", Problem);
-                            params.put("solution", Solution);
-                            params.put("tag", Tag);
-                            params.put("setter", Setter);
-                            params.put("updateDate", updateDate);
-                            params.put("updateTime", updateTime);
-                            params.put("lastUpdateDate", lastUpdateDate);
-                            params.put("lastUpdateTime", lastUpdateTime);
-                            // params.put("syncstatus", Integer.toString(sync_status));
+                            params.put("name", NAME);
+                            params.put("userName",USERNAME);
+                            params.put("password", PASSWORD);
+                            params.put("gender", GENDER);
+                            params.put("dateBirth", BIRTHDATE);
+                            params.put("email", EMAIL);
+                            params.put("phone", PHONE);
+                            params.put("institution",INSTITUTION);
+                            params.put("solvingString",SOLVINGSTRING);
+                            params.put("totalSolved",TOTALSOLVED);
 
                             return params;
                         }
@@ -218,23 +214,7 @@ public class dataSyncActivity extends AppCompatActivity {
 
     }
 
-    private void saveToLocalStorage(int sync){
 
-//        DbHelper dbHelper=new DbHelper(this);
-//        SQLiteDatabase database=dbHelper.getWritableDatabase();
-        myDatabaseHelper=new MyDatabaseHelper(this);
-        SQLiteDatabase database=myDatabaseHelper.getWritableDatabase();
-
-        //save to sqlite database
-        long id= myDatabaseHelper.saveToLocalDatabase(sync,database);
-
-        if(id==-1) Toast.makeText(this,"recoded unsuccessful",Toast.LENGTH_SHORT).show();
-        else  Toast.makeText(this,"recoded successful",Toast.LENGTH_SHORT).show();
-
-        readFromLocalStorage();
-        myDatabaseHelper.close();
-
-    }
 
     @Override
     protected void onStart() {

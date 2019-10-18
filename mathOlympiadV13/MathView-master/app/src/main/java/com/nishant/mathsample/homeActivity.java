@@ -1,6 +1,9 @@
 package com.nishant.mathsample;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -17,7 +20,7 @@ import android.widget.Toast;
 
 public class homeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    MyDatabaseHelper myDatabaseHelper;
+    private MyDatabaseHelper myDatabaseHelper;
     //nav menu begin
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mtoggle;
@@ -27,7 +30,9 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
 
 
     //button
-    private Button showProblemButton,updateProblemButton,addProblemButton;
+    private Button showProblemButton,updateProblemButton,addProblemButton,signUpButton,syncButton;
+
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         loadAll();//nav,button,database
 
 
+
     }
 
 
@@ -45,6 +51,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         findAllButton();
         loadNavMenu();
         initDatabase();
+        checkingNetwork();
 
     }
 
@@ -113,10 +120,15 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         showProblemButton= this.<Button>findViewById(R.id.showButtonId);
         updateProblemButton= this.<Button>findViewById(R.id.updateButtonId);
         addProblemButton= this.<Button>findViewById(R.id.addProblemButtonId);
+        signUpButton= this.<Button>findViewById(R.id.signUpButtonId);
+        syncButton=findViewById(R.id.uploadUserInformationId);
+
 
         showProblemButton.setOnClickListener(this);
         updateProblemButton.setOnClickListener(this);
         addProblemButton.setOnClickListener(this);
+        signUpButton.setOnClickListener(this);
+        syncButton.setOnClickListener(this);
     }
 
     private void initDatabase(){
@@ -153,5 +165,43 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(this,menuActivity.class));
 
         }
+        else if(id==R.id.signUpButtonId){
+
+            startActivity(new Intent(this,signUpActivity.class));
+        }
+        else if(id==R.id.uploadUserInformationId){
+
+            startActivity(new Intent(this,dataSyncActivity.class));
+
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(broadcastReceiver,new IntentFilter(DbContract.UI_UPDATE_BROADCAST));
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
+
+    private void checkingNetwork(){
+        //multi thread on friday 
+
+        DbContract.saveToAppServer(context,myDatabaseHelper);
+
+        broadcastReceiver=new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                DbContract.saveToAppServer(context,myDatabaseHelper);
+
+            }
+        };
+
     }
 }
