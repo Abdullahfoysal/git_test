@@ -130,7 +130,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return rowId;
     }
 
-    public Cursor showAllData(){
+    public synchronized Cursor showAllData(){
         SQLiteDatabase sqLiteDatabase= this.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(SELECT_ALL_FROM_PROBLEM_AND_SOLUTION_TABLE,null);
         return  cursor;
@@ -178,7 +178,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public Cursor readFromLocalDatabase(String tableName,SQLiteDatabase database){
+    public synchronized Cursor readFromLocalDatabase(String tableName,SQLiteDatabase database){
         Cursor cursor=null;
 
         if(tableName.equals(PROBLEM_AND_SOLUTION_TABLE))

@@ -10,7 +10,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/signupbackground"
+        android:background="#97D55E"
         android:orientation="vertical"
         android:padding="16dp"
         tools:context=".signUpActivity">
@@ -113,7 +113,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="male/female"
+                android:hint="Gender"
                 android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
@@ -156,7 +156,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="#b45705"
+            android:background="#056108"
             android:text="Sign Up"
             android:textColor="#fff" />
 
@@ -172,7 +172,7 @@
     <TextView android:id="@+id/link_login"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#E8EBE8"
+        android:textColor="#B60808"
         android:layout_marginBottom="24dp"
         android:text="Already a member? Login"
         android:gravity="center"

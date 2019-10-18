@@ -47,16 +47,16 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
     }
 
     @Override
-    protected void onPreExecute() {
+    protected synchronized void onPreExecute() {
         alertDialog=new AlertDialog.Builder(ctx).create();
         alertDialog.setTitle("Alert Note");
     }
 
     @Override
-    protected String doInBackground(String ... params) {
+    protected synchronized String doInBackground(String ... params) {
         String reg_url=DbContract.SERVER_URL2;
         String login_url=DbContract.SERVER_URL3;//dataFetch.php
-        String allDataFetchingUrl=DbContract.SERVER_URL4;
+        String allDataFetchingUrl=DbContract.ALL_DATA_FETCHING_URL;
 
 
 
@@ -99,6 +99,8 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
 
         }
         else if(method.equals("saveLocal")){
+
+            //Don't use this  method for saveToLocal rather we used the next "saveFromServer"
             String problemId=params[1];
 
 
@@ -142,7 +144,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
 
 
         }
-        else if(method.equals("saveFromOnline")){
+        else if(method.equals("saveFromServer")){
 
 
             //retrive data from json object begin
@@ -150,7 +152,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
 
 
                 String result=null;
-            InputStream is=null;
+                InputStream is=null;
 
                 try {
                     URL url = new URL(allDataFetchingUrl);
@@ -239,17 +241,17 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected synchronized void onPostExecute(String result) {
         if(result.equals("Data Saved to server"))
         Toast.makeText(ctx,result,Toast.LENGTH_SHORT).show();
         else if(result.equals("updated Local Database")){
             Toast.makeText(ctx,result,Toast.LENGTH_SHORT).show();
             alertDialog.setMessage(result);
-            alertDialog.show();
+            //alertDialog.show();
         }
         else {
             alertDialog.setMessage(result);
-            alertDialog.show();
+           // alertDialog.show();
            // problem.setText(result);
         }
     }

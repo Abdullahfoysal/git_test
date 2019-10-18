@@ -26,6 +26,7 @@ public class signUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private  void loadAll(){
+
         findAllField();
 
     }

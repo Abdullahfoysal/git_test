@@ -15,8 +15,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,9 +31,10 @@ public class NetworkMonitor extends BroadcastReceiver {
 
  @Override
     public void onReceive(final Context context, Intent intent) {
+
         if(checkNetworkConnection(context)){
 
-            Toast.makeText(context,"updating on network class",Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context,"updating on network class",Toast.LENGTH_SHORT).show();
 
             final MyDatabaseHelper myDatabaseHelper=new MyDatabaseHelper(context);
             final SQLiteDatabase database =myDatabaseHelper.getWritableDatabase();
@@ -104,6 +112,8 @@ public class NetworkMonitor extends BroadcastReceiver {
             cursor.close();
 
         }
+
+
     }
 
     public boolean checkNetworkConnection(Context context){
