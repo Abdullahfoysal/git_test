@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#2196F3"
+    android:orientation="vertical"
+    android:weightSum="3"
+    android:gravity="center">
+
+    <TextView
+        android:layout_marginTop="40dp"
+        android:id="@+id/userNameId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="User Name"/>
+
+
+    <ImageView
+        android:id="@+id/profileImageId"
+        android:layout_width="150sp"
+        android:layout_height="150sp"
+        android:padding="2dp"
+        android:src="@drawable/profile" />
+
+    <TextView
+        android:id="@+id/fulluserNameProfileId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="Full Name:"/>
+
+    <TextView
+        android:id="@+id/fullUserNameId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:text="Abdullah foysal"/>
+
+
+
+    <TextView
+        android:id="@+id/institutionTextId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shahjalal University Of Science and Technology"
+        android:textAppearance="@style/TextAppearance.AppCompat.Menu"/>
+    <TextView
+        android:id="@+id/userEmailProfileId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="abdullah32@student.sust.edu"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+
+    <TextView
+        android:id="@+id/userPhoneProfileId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="01960910540"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+
+
+
+
+</LinearLayout>

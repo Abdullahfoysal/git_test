@@ -1,11 +1,16 @@
 package com.nishant.mathsample;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.design.widget.NavigationView;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -24,19 +29,28 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import butterknife.OnClick;
+
+import static com.nishant.mathsample.initActivity.getDatabase;
+import static com.nishant.mathsample.initActivity.getDatabaseHelper;
 
 public class DbContract {
 
     public static final int SYNC_STATUS_OK=0;
     public static final int SYNC_STATUS_FAILED=1;
     public static final String SERVER_URL="http://192.168.0.105/syncdemo/sync.php";//no need on 15/10/19 9:54Pm
-    public static final String SERVER_URL2="http://192.168.0.102/syncdemo/dataSync.php";//15/10/19->9:16 pm from phone to mysql
-    public static final String USERDATASYNC_URL="http://192.168.0.102/syncdemo/userDataSync.php";
+    public static final String SERVER_URL2="http://192.168.0.107/syncdemo/dataSync.php";//15/10/19->9:16 pm from phone to mysql
+    public static final String USERDATASYNC_URL="http://192.168.0.107/syncdemo/userDataSync.php";
     public static final String SERVER_URL3="http://192.168.0.117/syncdemo/dataFetch.php";//for single information such login
-    public static final String SERVER_URL4="http://192.168.0.102/syncdemo/allDataFetching.php";//15/10/19->8:05 pm
-    public static final String ALL_DATA_FETCHING_URL="http://192.168.0.102/syncdemo/allDataFetching.php";//15/10/19->8:05 pm
+    public static final String SERVER_URL4="http://192.168.0.107/syncdemo/allDataFetching.php";//15/10/19->8:05 pm
+    public static final String ALL_DATA_FETCHING_URL="http://192.168.0.107/syncdemo/allDataFetching.php";//15/10/19->8:05 pm
+    public static final String USER_DATA_FETCHING_URL="http://192.168.0.107/syncdemo/userDataFetching.php";
+    public static final String LOGIN_DATA_FETCHING_URL="http://192.168.0.107/syncdemo/userLogin.php";//15/10/19->8:05 pm
+    public static final String CHECK_SIGNUP_DATA_FETCHING_URL="http://192.168.0.107/syncdemo/checkSignUp.php";
     public static final String UI_UPDATE_BROADCAST="com.nishant.mathsample.uiupdatebroadcast";
     public static final String DATABASE_NAME="contactdb";
     public static final String DATABASE_NAME2="SRMC.db";
@@ -45,6 +59,28 @@ public class DbContract {
     public static final String NAME="name";
     public static final String PROBLEM_ID="problemId";
     public static final String SYNC_STATUS="syncstatus";
+    public static String CURRENT_USER_NAME="";
+
+    public static AlertDialog alertDialog;
+
+
+
+
+
+
+    public static void Alert(Context ctx,String title,String text){
+        alertDialog=new AlertDialog.Builder(ctx).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(text);
+        alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alertDialog.cancel();
+            }
+        });
+        alertDialog.show();
+
+    }
 
     public  static boolean checkNetworkConnection(Context ctx){
         ConnectivityManager connectivityManager= (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -53,17 +89,25 @@ public class DbContract {
         return (networkInfo!=null && networkInfo.isConnected());
 
     }
-    public static synchronized void saveToAppServer(final Context ctx,final MyDatabaseHelper myDatabaseHelper){
+    public static synchronized void saveToAppServer(final Context ctx){
 
-
+            //update userInformation to server
+        Cursor cursor=null;
 
         if(checkNetworkConnection(ctx)) {
 
           //  Toast.makeText(ctx,"Network is ON",Toast.LENGTH_SHORT).show();
 
+            final MyDatabaseHelper myDatabaseHelper=getDatabaseHelper();
 
-            final SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
-            Cursor cursor = myDatabaseHelper.readFromLocalDatabase("userInformation",database);
+            try {
+
+                 cursor = myDatabaseHelper.showAllData("userInformation");
+
+            }catch (Exception e){
+                e.printStackTrace();
+                return;
+            }
 
             while (cursor.moveToNext()) {
                 //USER INFORMATION UPDATE TO ONLINE
@@ -93,11 +137,11 @@ public class DbContract {
                                         if (Response.equals("OK")) {
                                             //Toast.makeText(ctx, USERNAME+" is saved on server", Toast.LENGTH_SHORT).show();
 
-                                            myDatabaseHelper.updateLocalDatabase(DbContract.SYNC_STATUS_OK,USERNAME,database);
+                                            myDatabaseHelper.updateLocalDatabase(DbContract.SYNC_STATUS_OK,USERNAME);
 
 
                                         } else {
-                                           // Toast.makeText(ctx, "Not saved on server", Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(ctx, "Not saved on server", Toast.LENGTH_SHORT).show();
 
 
                                         }
@@ -155,13 +199,16 @@ public class DbContract {
 
     }
 
-    public static synchronized void saveFromServer(Context ctx,MyDatabaseHelper myDatabaseHelper){
+    public static synchronized void saveFromServer(Context ctx){
 
         if(checkNetworkConnection(ctx)) {
             System.out.println("aisse from server");
             //retrive data from json object begin
-            final SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
-           Cursor cursor=myDatabaseHelper.readFromLocalDatabase("userInformation",database);
+          //  final SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
+            final MyDatabaseHelper myDatabaseHelper=getDatabaseHelper();
+            final SQLiteDatabase sqLiteDatabase =getDatabase();
+
+           Cursor cursor=myDatabaseHelper.showAllData("problemAndSolution");
 
 
             String result=null;
@@ -252,6 +299,19 @@ public class DbContract {
         }
 //retrive data from json object end
 
+        }
+
+        public static synchronized void userInformationUpdateFromServer(Context ctx) {
+
+            if (checkNetworkConnection(ctx)) {
+
+
+                String method = "userDataFetching";
+                BackgroundTask backgroundTask = new BackgroundTask(ctx);
+                backgroundTask.execute(method);
+
+
+            }
         }
 
 

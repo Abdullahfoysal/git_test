@@ -27,6 +27,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.nishant.mathsample.initActivity.getDatabase;
+import static com.nishant.mathsample.initActivity.getDatabaseHelper;
+
 public class NetworkMonitor extends BroadcastReceiver {
 
  @Override
@@ -36,10 +39,10 @@ public class NetworkMonitor extends BroadcastReceiver {
 
            // Toast.makeText(context,"updating on network class",Toast.LENGTH_SHORT).show();
 
-            final MyDatabaseHelper myDatabaseHelper=new MyDatabaseHelper(context);
-            final SQLiteDatabase database =myDatabaseHelper.getWritableDatabase();
+            final MyDatabaseHelper myDatabaseHelper=getDatabaseHelper();
+           // final SQLiteDatabase sqLiteDatabase =getDatabase();
 
-            Cursor cursor=myDatabaseHelper.readFromLocalDatabase("userInformation",database);
+            Cursor cursor=myDatabaseHelper.showAllData("userInformation");
 
             while (cursor.moveToNext()){
 
@@ -69,7 +72,7 @@ public class NetworkMonitor extends BroadcastReceiver {
                                         String Response=jsonObject.getString("response");
                                         if(Response.equals("OK")){
 
-                                            myDatabaseHelper.updateLocalDatabase(DbContract.SYNC_STATUS_OK,USERNAME,database);
+                                            myDatabaseHelper.updateLocalDatabase(DbContract.SYNC_STATUS_OK,USERNAME);
                                             context.sendBroadcast(new Intent(DbContract.UI_UPDATE_BROADCAST));
                                         }
 

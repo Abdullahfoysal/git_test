@@ -54,7 +54,7 @@ public class problemActivity extends AppCompatActivity implements AdapterView.On
 
         ArrayList<String> listData = new ArrayList<>();
 
-         cursor = databaseHelper.showAllData();
+         cursor = databaseHelper.showAllData("problemAndSolution");
 
         if (cursor.getCount() == 0) {
             Toast.makeText(getApplicationContext(), "NO data is available in database", Toast.LENGTH_LONG).show();

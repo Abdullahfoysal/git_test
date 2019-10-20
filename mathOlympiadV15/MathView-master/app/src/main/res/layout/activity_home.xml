@@ -55,7 +55,12 @@
             android:layout_height="wrap_content"
             android:text="Synchronize User Data to Online"
             android:padding="5dp"/>
-
+        <Button
+            android:id="@+id/refreshButtonId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Refresh Screen"
+            android:padding="6dp"/>
 
 
     </LinearLayout>
@@ -91,9 +96,6 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu_test"/>
-
-
-
 
 
 </android.support.v4.widget.DrawerLayout>

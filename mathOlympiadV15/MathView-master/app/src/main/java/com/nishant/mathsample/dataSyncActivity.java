@@ -80,7 +80,7 @@ public class dataSyncActivity extends AppCompatActivity {
            myDatabaseHelper=new MyDatabaseHelper(this);
            SQLiteDatabase database=myDatabaseHelper.getReadableDatabase();
 
-           Cursor cursor=myDatabaseHelper.readFromLocalDatabase("userInformation",database);
+           Cursor cursor=myDatabaseHelper.readFromLocalDatabase("userInformation");
 
            while (cursor.moveToNext()){
 
@@ -122,7 +122,7 @@ public class dataSyncActivity extends AppCompatActivity {
 
             myDatabaseHelper = new MyDatabaseHelper(this);
             final SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
-            Cursor cursor = myDatabaseHelper.readFromLocalDatabase("userInformation",database);
+            Cursor cursor = myDatabaseHelper.readFromLocalDatabase("userInformation");
 
             while (cursor.moveToNext()) {
                 //USER INFORMATION UPDATE TO ONLINE
@@ -152,7 +152,7 @@ public class dataSyncActivity extends AppCompatActivity {
                                         if (Response.equals("OK")) {
                                             Toast.makeText(getApplicationContext(), "saved on server", Toast.LENGTH_SHORT).show();
 
-                                            myDatabaseHelper.updateLocalDatabase(DbContract.SYNC_STATUS_OK,USERNAME,database);
+                                            myDatabaseHelper.updateLocalDatabase(DbContract.SYNC_STATUS_OK,USERNAME);
 
 
                                         } else {

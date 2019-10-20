@@ -1,6 +1,7 @@
 package com.nishant.mathsample;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -75,7 +76,7 @@ public class problemProfileActivity extends AppCompatActivity implements View.On
     public void loadData() {
 
 
-        cursor = databaseHelper.showAllData();
+        cursor = databaseHelper.showAllData("problemAndSolution");
 
         if (cursor.getCount() == 0) {
             Toast.makeText(getApplicationContext(), "NO data is available in database", Toast.LENGTH_LONG).show();
