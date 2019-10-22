@@ -23,4 +23,8 @@ public class hello{
 		return n*n;
 	}
 
+	public void marge(){
+		return;
+	}
+
 }
