@@ -1,3 +1,5 @@
+
+import java.util.Scanner;
 public class hello{
 	public	hello(){
 
@@ -5,6 +7,7 @@ public class hello{
 		int fooysal;
 
 	}
+
 
 	public static void main(String[] args){
 		System.out.println("sublime is also awesome");
@@ -19,4 +22,5 @@ public class hello{
 	{
 		return n*n;
 	}
+
 }
