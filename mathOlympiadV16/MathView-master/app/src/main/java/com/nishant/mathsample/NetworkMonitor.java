@@ -62,7 +62,7 @@ public class NetworkMonitor extends BroadcastReceiver {
                 if(sync_status==DbContract.SYNC_STATUS_FAILED){
                    // final String Name=cursor.getString(cursor.getColumnIndex(DbContract.NAME));
 
-                    StringRequest stringRequest=new StringRequest(Request.Method.POST, DbContract.USERDATASYNC_URL,
+                    StringRequest stringRequest=new StringRequest(Request.Method.POST, DbContract.USER_DATA_UPDATE_URL,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {

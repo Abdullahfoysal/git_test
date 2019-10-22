@@ -46,11 +46,11 @@ public class problemProfileActivity extends AppCompatActivity implements View.On
     private TextView title;
     private Button submitButton;
     private EditText submittedSolutionEditText;
-    private String problemId="1";
+    private int problemId=1;
     private Bundle bundle;
     private String KEY="problemId";
     private String realSolution="#!?@";
-    private String submittedSolution;
+    private String submittedSolution="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +85,8 @@ public class problemProfileActivity extends AppCompatActivity implements View.On
 
             while (cursor.moveToNext()) {
 //                listData.add(cursor.getString(0)+". "+cursor.getString(2));
-                if(cursor.getString(0).equals(problemId)){
+                if(cursor.getInt(0)==problemId){
+
                     realSolution=cursor.getString(3);
                     title.setText(cursor.getString(1));
                     mathView.setText(cursor.getString(2));
@@ -109,7 +110,7 @@ public class problemProfileActivity extends AppCompatActivity implements View.On
     }
     void receiveData(){
         bundle = getIntent().getExtras();
-         problemId=bundle.getString(KEY);
+         problemId=Integer.parseInt(bundle.getString(KEY));
 
         // Toast.makeText(this,problemId,Toast.LENGTH_LONG).show();
     }
@@ -117,18 +118,70 @@ public class problemProfileActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.solutionSubmitButtonId){
-            submittedSolution= submittedSolutionEditText.getText().toString();
+            submittedSolution= submittedSolutionEditText.getText().toString().trim();
+            if(submittedSolution.isEmpty())return;
+            if(DbContract.CURRENT_USER_NAME.equals("guest")){
+                DbContract.Alert(this,"Problem Submission:","You are Guest only\n Login To Try Problems");
+                return;
+            }
 
             if(realSolution.equals(submittedSolution)){
+
+
                 Toast.makeText(this,"Accepted",Toast.LENGTH_LONG).show();
+               int verdict= DbContract.changeUserSolvingString(problemId,true);
+                if(verdict==DbContract.SOLVED){
+                    Toast.makeText(this,"Already Accepted ",Toast.LENGTH_LONG).show();
+                    DbContract.Alert(this,"Problem Verdict"," Accepted! (-_-)");
+                    submittedSolutionEditText.setHint("Accepted (-_-)");
+                }
+               else if(verdict==DbContract.NOT_ABLE_SOLVED){
+                    Toast.makeText(this,"Already Tried "+DbContract.NOT_ABLE_SOLVED+" Times",Toast.LENGTH_LONG).show();
+                    DbContract.Alert(this,"Problem Verdict","You can't submit this any more time");
+                    submittedSolutionEditText.setHint("Already Tried "+DbContract.SOLVED+" times ");
+
+                }
+                else
+                DbContract.Alert(this,"Problem Verdict","Accepted");
+                submittedSolutionEditText.setHint("Accepted (-_-)");
+
             }
             else{
                 Toast.makeText(this,"Wrong",Toast.LENGTH_LONG).show();
-            }
-            submittedSolutionEditText.setText("");
-            submittedSolutionEditText.setHint("Enter Answer Again");
+                int verdict= DbContract.changeUserSolvingString(problemId,false);
+                if(verdict==DbContract.SOLVED){
+                    Toast.makeText(this,"Already Solved ",Toast.LENGTH_LONG).show();
+                    DbContract.Alert(this,"Problem Verdict","Wrong");
+                    submittedSolutionEditText.setHint("Wrong -_- ");
+                }
+                else if(verdict==DbContract.SOLVED-1){
+                    Toast.makeText(this,"Again Wrong ",Toast.LENGTH_LONG).show();
+                    DbContract.Alert(this,"Problem Verdict","Wrong\nLast Chance to Solve");
+                    submittedSolutionEditText.setHint("Wrong -_-\nLast Chance to Solve ");
+                }
+                else if(verdict==DbContract.NOT_ABLE_SOLVED ){
+                    Toast.makeText(this,"Already Tried "+DbContract.NOT_ABLE_SOLVED+" Times",Toast.LENGTH_LONG).show();
+                    DbContract.Alert(this,"Problem Verdict","You can't submit this any more time");
+                    submittedSolutionEditText.setHint("Wrong -_-\n Already Tried "+DbContract.SOLVED+" times");
+                }
+                else{
 
+
+                        String ms=Integer.toString(verdict);
+                        Toast.makeText(this,"Wrong Answer for "+ms+" Times",Toast.LENGTH_LONG).show();
+                        DbContract.Alert(this,"Problem Verdict","Wrong for "+ms+" Times\n Try again");
+                        submittedSolutionEditText.setHint("Wrong -_-");
+                    }
+
+
+
+
+                }
+
+            submittedSolutionEditText.setText("");
+            DbContract.saveToAppServer(this,DbContract.USER_DATA_UPDATE_URL);//userUpdate data saved to server
         }
+
 
     }
 

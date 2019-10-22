@@ -45,22 +45,39 @@ public class problemActivity extends AppCompatActivity implements AdapterView.On
         //Data base work
         databaseHelper = new MyDatabaseHelper(this);
 
-        loadData();
+        String method=getIntent().getExtras().getString("method");
+
+        loadData(method);
         listView.setOnItemClickListener(this);
 
 
     }
-    public void loadData() {
+    public void loadData(String method) {
+
+        Cursor USER_CURSOR=databaseHelper.query("userInformation",DbContract.CURRENT_USER_NAME);
+        String solvingString="";
+
+        if(USER_CURSOR.moveToNext()){
+            solvingString=USER_CURSOR.getString(8);
+
+        }
+
 
         ArrayList<String> listData = new ArrayList<>();
 
          cursor = databaseHelper.showAllData("problemAndSolution");
+
 
         if (cursor.getCount() == 0) {
             Toast.makeText(getApplicationContext(), "NO data is available in database", Toast.LENGTH_LONG).show();
 
         } else {
             while (cursor.moveToNext()) {
+                int PROBLEM_ID=cursor.getInt(0);
+                //Toast.makeText(this,Integer.toString(PROBLEM_ID),Toast.LENGTH_SHORT).show();
+
+                boolean show=DbContract.userSolvingString(solvingString,PROBLEM_ID,method);
+                if(show)
                 listData.add(cursor.getString(0)+". "+cursor.getString(1));
 
             }

@@ -45,7 +45,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String INSTITUTION="institution";
     private static final String SOLVING_STRING="solvingString";
     private static final String TOTAL_SOLVED="totalSolved";
-    private static final String CREATE_USER_INFORMATION_TABLE="CREATE TABLE "+USER_INFORMATION_TABLE+"( "+NAME+" VARCHAR(25), "+USER_NAME+" VARCHAR(25), "+PASSWORD+" VARCHAR(25), "+GENDER+" VARCHAR(25), "+DATE_BIRTH+" VARCHAR(25), "+EMAIL+" VARCHAR(25), "+PHONE_NUMBER+" VARCHAR(25), "+INSTITUTION+" VARCHAR(50), "+SOLVING_STRING+" TEXT, "+TOTAL_SOLVED+" VARCHAR(25), "+DbContract.SYNC_STATUS+" INTEGER );";
+    private static final String CREATE_USER_INFORMATION_TABLE="CREATE TABLE "+USER_INFORMATION_TABLE+"( "+NAME+" VARCHAR(25), "+USER_NAME+" VARCHAR(25), "+PASSWORD+" VARCHAR(25), "+GENDER+" VARCHAR(25), "+DATE_BIRTH+" VARCHAR(25), "+EMAIL+" VARCHAR(25), "+PHONE_NUMBER+" VARCHAR(25), "+INSTITUTION+" VARCHAR(50), "+SOLVING_STRING+" VARCHAR(10000), "+TOTAL_SOLVED+" VARCHAR(25), "+DbContract.SYNC_STATUS+" INTEGER );";
     private static final String SELECT_ALL_FROM_USER_INFORMATION_TABLE="SELECT * FROM "+USER_INFORMATION_TABLE;
 
     private SQLiteDatabase sqLiteDatabase=null;
@@ -189,6 +189,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase=getWritableDatabase();
 
         ContentValues contentValues=new ContentValues();
+        contentValues.put(DbContract.SYNC_STATUS,sync_status);
+
+        String selection =USER_NAME+" LIKE ?";
+        String[] selection_args={userName};
+        sqLiteDatabase.update(USER_INFORMATION_TABLE,contentValues,selection,selection_args);
+
+
+    }
+    public void updateLocalDatabase(String userName,int sync_status,String solvingString,String totalSolved){//userInformation
+
+        sqLiteDatabase=getWritableDatabase();
+
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(SOLVING_STRING,solvingString);
+        contentValues.put(TOTAL_SOLVED,totalSolved);
         contentValues.put(DbContract.SYNC_STATUS,sync_status);
 
         String selection =USER_NAME+" LIKE ?";

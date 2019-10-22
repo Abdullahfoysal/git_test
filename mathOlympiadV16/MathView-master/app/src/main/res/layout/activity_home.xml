@@ -55,12 +55,26 @@
             android:layout_height="wrap_content"
             android:text="Synchronize User Data to Online"
             android:padding="5dp"/>
+
         <Button
             android:id="@+id/refreshButtonId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Refresh Screen"
             android:padding="6dp"/>
+        <Button
+            android:id="@+id/attemptedProblemButtonId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attempted Problem"
+            android:padding="6dp"/>
+        <Button
+            android:id="@+id/solvedProblemButtonId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Solved Problem"
+            android:padding="6dp"/>
+
 
 
     </LinearLayout>

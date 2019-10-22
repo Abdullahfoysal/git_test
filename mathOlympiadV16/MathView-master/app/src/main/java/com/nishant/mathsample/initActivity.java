@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class initActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button initLoginButton;
+    private Button initLoginButton,guestButton;
     public static MyDatabaseHelper myDatabaseHelper;
     public static SQLiteDatabase sqLiteDatabase;
     private initActivity context;
@@ -30,9 +30,7 @@ public class initActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void saveAllToServer(){
 
-        // DbContract.saveToAppServer(this);//userInformation for signUp information update to server
-       // DbContract.saveFromServer(context);//problemAndSolution to local
-
+         DbContract.saveToAppServer(this,DbContract.USER_DATA_UPDATE_URL);//userInformation for signUp information update to server
 
 
     }
@@ -53,8 +51,10 @@ public class initActivity extends AppCompatActivity implements View.OnClickListe
     private void findAllButton(){
 
         initLoginButton= this.<Button>findViewById(R.id.initLoginButtonId);
-        initLoginButton.setOnClickListener(this);
+        guestButton= this.<Button>findViewById(R.id.guestLoginButtonId);
 
+        initLoginButton.setOnClickListener(this);
+        guestButton.setOnClickListener(this);
     }
 
     @Override
@@ -62,6 +62,11 @@ public class initActivity extends AppCompatActivity implements View.OnClickListe
         long id=view.getId();
         if(id==R.id.initLoginButtonId){
             startActivity(new Intent(this,loginActivity.class));
+        }
+        else if(id==R.id.guestLoginButtonId){
+            Intent intent=new Intent(this,homeActivity.class);
+            intent.putExtra("user","guest");
+            startActivity(intent);
         }
 
     }

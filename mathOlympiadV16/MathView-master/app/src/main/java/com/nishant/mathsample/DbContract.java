@@ -37,20 +37,22 @@ import butterknife.OnClick;
 
 import static com.nishant.mathsample.initActivity.getDatabase;
 import static com.nishant.mathsample.initActivity.getDatabaseHelper;
+import static com.nishant.mathsample.initActivity.myDatabaseHelper;
 
 public class DbContract {
 
     public static final int SYNC_STATUS_OK=0;
     public static final int SYNC_STATUS_FAILED=1;
     public static final String SERVER_URL="http://192.168.0.105/syncdemo/sync.php";//no need on 15/10/19 9:54Pm
-    public static final String SERVER_URL2="http://192.168.0.107/syncdemo/dataSync.php";//15/10/19->9:16 pm from phone to mysql
-    public static final String USERDATASYNC_URL="http://192.168.0.107/syncdemo/userDataSync.php";
+    public static final String PROBLEM_DATA_SYNC_URL="http://192.168.0.107/syncdemo/dataSync.php";//15/10/19->9:16 pm from phone to mysql
+    public static final String USERDATASYNC_URL="http://192.168.0.101/syncdemo/userDataSync.php";//signUp for
+    public static final String USER_DATA_UPDATE_URL="http://192.168.0.101/syncdemo/userDataUpdate.php";//user activity Update
     public static final String SERVER_URL3="http://192.168.0.117/syncdemo/dataFetch.php";//for single information such login
     public static final String SERVER_URL4="http://192.168.0.107/syncdemo/allDataFetching.php";//15/10/19->8:05 pm
-    public static final String ALL_DATA_FETCHING_URL="http://192.168.0.107/syncdemo/allDataFetching.php";//15/10/19->8:05 pm
-    public static final String USER_DATA_FETCHING_URL="http://192.168.0.107/syncdemo/userDataFetching.php";
-    public static final String LOGIN_DATA_FETCHING_URL="http://192.168.0.107/syncdemo/userLogin.php";//15/10/19->8:05 pm
-    public static final String CHECK_SIGNUP_DATA_FETCHING_URL="http://192.168.0.107/syncdemo/checkSignUp.php";
+    public static final String ALL_DATA_FETCHING_URL="http://192.168.0.101/syncdemo/allDataFetching.php";//15/10/19->8:05 pm
+    public static final String USER_DATA_FETCHING_URL="http://192.168.0.101/syncdemo/userDataFetching.php";
+    public static final String LOGIN_DATA_FETCHING_URL="http://192.168.0.101/syncdemo/userLogin.php";//15/10/19->8:05 pm
+    public static final String CHECK_SIGNUP_DATA_FETCHING_URL="http://192.168.0.101/syncdemo/checkSignUp.php";
     public static final String UI_UPDATE_BROADCAST="com.nishant.mathsample.uiupdatebroadcast";
     public static final String DATABASE_NAME="contactdb";
     public static final String DATABASE_NAME2="SRMC.db";
@@ -59,7 +61,14 @@ public class DbContract {
     public static final String NAME="name";
     public static final String PROBLEM_ID="problemId";
     public static final String SYNC_STATUS="syncstatus";
-    public static String CURRENT_USER_NAME="";
+    public static String CURRENT_USER_NAME="alex";
+
+    //NEW USER SOLVING STRING SIZE=20,001
+    public static final String NEW_USER_SOLVING_STRING="00000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+    public static final int NOT_TOUCHED=0;
+    public static final  int SOLVED=4;
+    public static final  int NOT_ABLE_SOLVED=5;
+
 
     public static AlertDialog alertDialog;
 
@@ -82,6 +91,122 @@ public class DbContract {
 
     }
 
+    public static String replaceChar(String str, char ch, int index) {
+        StringBuilder myString = new StringBuilder(str);
+        myString.setCharAt(index, ch);
+        return myString.toString();
+    }
+    public static String changeTotalSolved(String totalSolved){
+        int total=Integer.parseInt(totalSolved);
+        total++;
+
+        return Integer.toString(total);
+
+    }
+
+    public static int changeUserSolvingString(int problemId,boolean verdict){
+
+        String solvingString="";
+        String totaSolved="";
+
+
+        final MyDatabaseHelper myDatabaseHelper=getDatabaseHelper();
+        String USER_NAME=DbContract.CURRENT_USER_NAME;
+        int syncstatus=DbContract.SYNC_STATUS_FAILED;
+
+
+
+        Cursor USER_CURSOR=myDatabaseHelper.query("userInformation",USER_NAME);
+
+
+        if(USER_CURSOR.moveToNext()){
+            solvingString=USER_CURSOR.getString(8);
+            totaSolved=USER_CURSOR.getString(9);
+        }
+            if(verdict==true){
+                int r=Character.getNumericValue(solvingString.charAt(problemId));
+
+                if(r==NOT_ABLE_SOLVED || r==SOLVED){
+
+                    return r;
+                }
+
+                solvingString=replaceChar(solvingString,'4',problemId);
+
+                totaSolved=changeTotalSolved(totaSolved);
+
+                myDatabaseHelper.updateLocalDatabase(USER_NAME,syncstatus,solvingString,totaSolved);
+                return 0;
+            }
+            else if(verdict==false){
+
+                char ch=solvingString.charAt(problemId);
+                int r=Character.getNumericValue(ch);
+
+                if(r==NOT_ABLE_SOLVED || r==SOLVED){
+
+                    return r;
+                }
+
+                if(r==SOLVED-1){
+                    solvingString=replaceChar(solvingString,'5',problemId);//not able to solve
+
+                    myDatabaseHelper.updateLocalDatabase(USER_NAME,syncstatus,solvingString,totaSolved);
+                    return NOT_ABLE_SOLVED;
+
+                }else {
+                    r++;
+                    ch=(char)(r+'0');
+
+                    solvingString=replaceChar(solvingString,ch,problemId);
+
+                    myDatabaseHelper.updateLocalDatabase(USER_NAME,syncstatus,solvingString,totaSolved);
+
+
+                }
+                return r;
+            }
+
+
+
+        return  0;
+
+
+    }
+    public static boolean userSolvingString(String str,int position,String method){
+
+
+        int result=10;
+
+        if(position<str.length())
+         result= Character.getNumericValue(str.charAt(position));
+
+        if(method.equals("solved")){
+
+               if(result==SOLVED) return true;
+               else return false;
+
+
+        }
+        else if(method.equals("attempted")){
+
+                if(((result >NOT_TOUCHED) && (result<SOLVED)) || result==NOT_ABLE_SOLVED) return true;
+                else return false;
+
+
+        }
+        else if(method.equals("allProblem")){
+
+            if(result==NOT_TOUCHED ) return true;
+            else return false;
+
+        }
+
+        return false;
+
+
+    }
+
     public  static boolean checkNetworkConnection(Context ctx){
         ConnectivityManager connectivityManager= (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
@@ -89,7 +214,7 @@ public class DbContract {
         return (networkInfo!=null && networkInfo.isConnected());
 
     }
-    public static synchronized void saveToAppServer(final Context ctx){
+    public static synchronized void saveToAppServer(final Context ctx,String url){
 
             //update userInformation to server
         Cursor cursor=null;
@@ -126,7 +251,7 @@ public class DbContract {
                 if(sync_status==DbContract.SYNC_STATUS_FAILED){
 
 
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.USERDATASYNC_URL,
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST,url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -138,10 +263,11 @@ public class DbContract {
                                             //Toast.makeText(ctx, USERNAME+" is saved on server", Toast.LENGTH_SHORT).show();
 
                                             myDatabaseHelper.updateLocalDatabase(DbContract.SYNC_STATUS_OK,USERNAME);
+                                            Toast.makeText(ctx,"saveToAppServer on Dbcontract",Toast.LENGTH_SHORT).show();
 
 
                                         } else {
-                                            //Toast.makeText(ctx, "Not saved on server", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ctx, "Not saved on server", Toast.LENGTH_SHORT).show();
 
 
                                         }
@@ -199,14 +325,13 @@ public class DbContract {
 
     }
 
-    public static synchronized void saveFromServer(Context ctx){
+    public static synchronized void saveFromServer(final Context ctx){ //not work for initActivity
 
         if(checkNetworkConnection(ctx)) {
             System.out.println("aisse from server");
             //retrive data from json object begin
           //  final SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
             final MyDatabaseHelper myDatabaseHelper=getDatabaseHelper();
-            final SQLiteDatabase sqLiteDatabase =getDatabase();
 
            Cursor cursor=myDatabaseHelper.showAllData("problemAndSolution");
 

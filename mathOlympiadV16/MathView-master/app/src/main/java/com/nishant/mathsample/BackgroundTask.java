@@ -58,7 +58,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
 
     @Override
     protected synchronized String doInBackground(String ... params) {
-        String reg_url=DbContract.SERVER_URL2;
+        String PROBLEM_SYNC_URL=DbContract.PROBLEM_DATA_SYNC_URL;
         String login_url=DbContract.LOGIN_DATA_FETCHING_URL;//userLogin.php
         String allDataFetchingUrl=DbContract.ALL_DATA_FETCHING_URL;
         String checkSignUp_URL=DbContract.CHECK_SIGNUP_DATA_FETCHING_URL;
@@ -76,7 +76,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
             String Setter=params[5];
 
             try {
-                URL url=new URL(reg_url);
+                URL url=new URL(PROBLEM_SYNC_URL);
                 HttpURLConnection httpURLConnection= (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
@@ -146,8 +146,10 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                 if(response.equals("OK")){
 
                     DbContract.CURRENT_USER_NAME=USERNAME;
+                    DbContract.userInformationUpdateFromServer(ctx);
 
                     Intent intent = new Intent (ctx, homeActivity.class);
+                    intent.putExtra("user",USERNAME);
                     ctx.startActivity(intent);
                 }
                // else DbContract.Alert(ctx,"Login information","Enter correct username & password");
@@ -206,11 +208,13 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
 
                 if(response.equals("notMatched")){
 
-                    long rowId = myDatabaseHelper.insertData(NAME, USERNAME, PASSWORD, GENDER, BIRTHDATE, EMAIL, PHONENUMBER, INSTITUTION, "0", "0", DbContract.SYNC_STATUS_FAILED);
+                    long rowId = myDatabaseHelper.insertData(NAME, USERNAME, PASSWORD, GENDER, BIRTHDATE, EMAIL, PHONENUMBER, INSTITUTION, DbContract.NEW_USER_SOLVING_STRING, "0", DbContract.SYNC_STATUS_FAILED);
 
                     DbContract.CURRENT_USER_NAME=USERNAME;
+                    DbContract.saveToAppServer(ctx,DbContract.USERDATASYNC_URL);
 
                     Intent intent = new Intent (ctx, homeActivity.class);
+                    intent.putExtra("user",USERNAME);
                     ctx.startActivity(intent);
                 }
 
@@ -422,7 +426,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
 
 
 
-        return "Nothind Done yet";
+        return "Server is switched off";
     }
 
     @Override

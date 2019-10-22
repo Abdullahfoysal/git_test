@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.nishant.mathsample.initActivity.getDatabaseHelper;
+
 public class dataSyncActivity extends AppCompatActivity {
 
     MyDatabaseHelper myDatabaseHelper;
@@ -77,8 +79,7 @@ public class dataSyncActivity extends AppCompatActivity {
         arrayList.clear();
 
 
-           myDatabaseHelper=new MyDatabaseHelper(this);
-           SQLiteDatabase database=myDatabaseHelper.getReadableDatabase();
+           myDatabaseHelper=getDatabaseHelper();
 
            Cursor cursor=myDatabaseHelper.readFromLocalDatabase("userInformation");
 
@@ -120,9 +121,9 @@ public class dataSyncActivity extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(),"network is on",Toast.LENGTH_SHORT).show();
 
-            myDatabaseHelper = new MyDatabaseHelper(this);
-            final SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
-            Cursor cursor = myDatabaseHelper.readFromLocalDatabase("userInformation");
+         final MyDatabaseHelper myDatabaseHelper =getDatabaseHelper();
+
+            Cursor cursor=myDatabaseHelper.showAllData("userInformation");
 
             while (cursor.moveToNext()) {
                 //USER INFORMATION UPDATE TO ONLINE
@@ -153,6 +154,7 @@ public class dataSyncActivity extends AppCompatActivity {
                                             Toast.makeText(getApplicationContext(), "saved on server", Toast.LENGTH_SHORT).show();
 
                                             myDatabaseHelper.updateLocalDatabase(DbContract.SYNC_STATUS_OK,USERNAME);
+
 
 
                                         } else {

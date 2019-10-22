@@ -47,11 +47,12 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
     private ActionBarDrawerToggle mtoggle;
     private homeActivity context;
     private Toolbar toolbar;
+    private String CURRENT_USER="";
     //nav menu end
 
 
     //button
-    private Button showProblemButton,updateProblemButton,addProblemButton,signUpButton,syncButton,refreshButton;
+    private Button showProblemButton,updateProblemButton,addProblemButton,signUpButton,syncButton,refreshButton,attemptedButton,solvedButton;
 
     private BroadcastReceiver broadcastReceiver,broadcastReceiverUpdateProblem;
 
@@ -60,6 +61,8 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         context=this;
+
+        CURRENT_USER=getIntent().getExtras().getString("user");
 
         loadAll();//nav,button,database//network backgroundwork
         System.out.println(DbContract.CURRENT_USER_NAME+" ON PROFILE IS ACTIVE");
@@ -70,10 +73,22 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loadAll(){
         loadLocalDatabase();
+         guestUser();
         findAllButton();
         loadNavMenu();
         checkingNetworkAndThread();//problem update to local and user signUp upload to server
 
+
+
+    }
+    private void guestUser(){
+        DbContract.CURRENT_USER_NAME=CURRENT_USER;
+        Cursor cursor=myDatabaseHelper.query("userInformation",CURRENT_USER);
+        if(cursor.moveToNext()){
+            myDatabaseHelper.updateLocalDatabase(CURRENT_USER,DbContract.SYNC_STATUS_OK,DbContract.NEW_USER_SOLVING_STRING,"0");
+        }
+        else
+        myDatabaseHelper.insertData(CURRENT_USER, CURRENT_USER, CURRENT_USER, CURRENT_USER, CURRENT_USER, CURRENT_USER, CURRENT_USER, CURRENT_USER, DbContract.NEW_USER_SOLVING_STRING, "0", DbContract.SYNC_STATUS_OK);
 
     }
     private void loadLocalDatabase(){
@@ -85,7 +100,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        DbContract.saveToAppServer(this);
+        DbContract.saveToAppServer(this,DbContract.USERDATASYNC_URL);
         DbContract.userInformationUpdateFromServer(this);//backgroundTask method="userDataFetching"
 
         setNavMenuInfo();
@@ -182,6 +197,8 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         signUpButton= this.<Button>findViewById(R.id.signUpButtonId);
         syncButton=findViewById(R.id.uploadUserInformationId);
         refreshButton= this.<Button>findViewById(R.id.refreshButtonId);
+        attemptedButton= this.<Button>findViewById(R.id.attemptedProblemButtonId);
+        solvedButton= this.<Button>findViewById(R.id.solvedProblemButtonId);
 
 
 
@@ -191,6 +208,8 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         signUpButton.setOnClickListener(this);
         syncButton.setOnClickListener(this);
         refreshButton.setOnClickListener(this);
+        attemptedButton.setOnClickListener(this);
+        solvedButton.setOnClickListener(this);
     }
 
 
@@ -221,7 +240,9 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         long id=view.getId();
         if(id==R.id.showButtonId){
 
-            startActivity(new Intent(this,problemActivity.class));
+            Intent intent=new Intent(this,problemActivity.class);
+            intent.putExtra("method","allProblem");
+            startActivity(intent);
 
         }
         else if(id==R.id.updateButtonId){
@@ -245,7 +266,18 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         else if(id==R.id.refreshButtonId){
-            setNavMenuInfo();
+            DbContract.saveToAppServer(this,DbContract.USER_DATA_UPDATE_URL);
+        }
+        else if(id==R.id.attemptedProblemButtonId){
+            Intent intent=new Intent(this,problemActivity.class);
+            intent.putExtra("method","attempted");
+            startActivity(intent);
+        }
+        else if(id==R.id.solvedProblemButtonId){
+            Intent intent=new Intent(this,problemActivity.class);
+            intent.putExtra("method","solved");
+            startActivity(intent);
+
         }
     }
 
