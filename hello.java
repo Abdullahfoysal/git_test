@@ -1,40 +1,7 @@
 
-import java.util.Scanner;
+
 public class hello{
-	public	hello(){
+import java.util.Scanner;
 
-
-		int fooysal;
-
-	}
-
-
-
-
-	public static void main(String[] args){
-		System.out.println("sublime is also awesome");
-	    greeting("Hello java");
-	}
-
-	public void marge(){
-
-		System.out.println("NegativeArraySizeException");
-		
-		return;
-	}
-
-	public static void greeting(String name)
-	{
-		System.out.println(name);
-	}
-	public static int sqrt(int n)
-	{
-		return n*n;
-	}
-
-	public void marge(){
-
-		return;
-	}
 
 }
